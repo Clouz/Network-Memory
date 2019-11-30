@@ -8,16 +8,31 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>{{.Title}}</title>
+    <title></title>
   </head>
   <body>
 
-    <h1>{{.Title}}</h1>
+    <div class="container">
+        <form class="form-inline" action="/Scan" method="post">
+          
+        <select class="form-control form-control-lg">
+        {{range .}}
+          <option>{{.Name}}</option>
+        {{end}}
+        </select>
 
-    <p>[<a href="/edit/{{.Title}}">edit</a>]</p>
+      <button type="submit" class="btn btn-primary mb-2">Ok</button>
+    </form>
+      
+      <ul class="list-group">
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectetur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+  </div>
     
-    <div>{{printf "%s" .Body}}</div>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

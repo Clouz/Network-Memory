@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -18,17 +19,13 @@ type Page struct {
 
 func main() {
 	http.HandleFunc("/", HomePage)
+	http.HandleFunc("/Scan", HomePage)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func HomePage(w http.ResponseWriter, r *http.Request) {
 
-	HomePageVars := Page{
-		Title: "Titolo 1",
-		Body:  "Corpo 1",
-	}
-
-	_, err := net.Interfaces()
+	i, err := net.Interfaces()
 	if err != nil {
 		panic(err)
 	}
@@ -37,8 +34,28 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {                                // if there is an error
 		log.Print("template parsing error: ", err) // log it
 	}
-	err = t.Execute(w, HomePageVars) //execute the template and pass it the HomePageVars struct to fill in the gaps
-	if err != nil {                  // if there is an error
+	err = t.Execute(w, i) //execute the template and pass it the HomePageVars struct to fill in the gaps
+	if err != nil {       // if there is an error
 		log.Print("template executing error: ", err) //log it
+	}
+
+}
+
+func Scan(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("method:", r.Method) //get request method
+	if r.Method == "GET" {
+		t, _ := template.ParseFiles("login.gtpl")
+		t.Execute(w, nil)
+	} else {
+		r.ParseForm()
+		// logic part of log in
+		fmt.Println("interface:", r.Form["interface"])
+	}
+
+	for _, iface := range net.Interfaces() {
+		if iface.Name == r.Form["interface"] {
+			scan(&iface)
+		}
 	}
 }

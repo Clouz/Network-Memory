@@ -25,7 +25,7 @@ import (
 	"github.com/google/gopacket/pcap"
 )
 
-func start() {
+func Start() {
 	// Get a list of all interfaces.
 	ifaces, err := net.Interfaces()
 	if err != nil {
